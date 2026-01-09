@@ -42,13 +42,11 @@ jobs:
             --env-var base_url=https://jsonplaceholder.typicode.com/posts \
             --reporters cli,html \
             --reporter-html-export reports/newman/newman-report.html
-          echo "=== Newman report contents ==="
-          ls -l reports/newman
+          ls -R reports
 
       - name: Upload Newman report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: newman-report
-          path: reports/newman/newman-report.html
-          if-no-files-found: error
+          path: reports/newman
