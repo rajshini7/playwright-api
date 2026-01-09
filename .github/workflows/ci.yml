@@ -2,9 +2,13 @@ name: API Automation CI
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
+      - development
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
+      - development
 
 jobs:
   api-tests:
@@ -27,6 +31,8 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Run Playwright API tests
+        env:
+          BASE_URL: https://jsonplaceholder.typicode.com
         run: npm run test:api
 
       - name: Run Newman collection
