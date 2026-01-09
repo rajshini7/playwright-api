@@ -1,21 +1,13 @@
 import { defineConfig } from '@playwright/test';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 export default defineConfig({
   testDir: './tests',
-
-  reporter: [
-    ['list'],
-    ['html', { outputFolder: 'reports/playwright', open: 'never' }]
-  ],
+  timeout: 30_000,
 
   use: {
-    baseURL: process.env.BASE_URL,
+    baseURL: 'https://jsonplaceholder.typicode.com',
     extraHTTPHeaders: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-  },
+      'Content-Type': 'application/json'
+    }
+  }
 });
