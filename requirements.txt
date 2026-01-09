@@ -1,0 +1,32 @@
+# ================================
+# SYSTEM & TOOL REQUIREMENTS
+# ================================
+# This project is NOT a Python project.
+# It uses Node.js tooling (Playwright + Newman).
+# Python/pip is NOT required.
+
+# ----------------
+# Required Runtime
+# ----------------
+nodejs>=18.0.0
+npm>=9.0.0
+
+# ----------------
+# Test Frameworks
+# ----------------
+playwright>=1.41.0
+newman>=6.1.0
+
+# ----------------
+# Notes
+# ----------------
+# To install all project dependencies, run:
+#   npm install
+#
+# To execute API tests:
+#   npm run test:api
+#
+# To execute Newman collections:
+#   npm run newman:run
+#
+# package.json is the authoritative dependency file.

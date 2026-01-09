@@ -1,0 +1,178 @@
+{
+  "info": {
+    "_postman_id": "c15e0fdd-736c-410d-b876-25cbef16e4f5",
+    "name": "CRUD VAL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49609504"
+  },
+  "item": [
+    {
+      "name": "POST - Create Post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201 (Created)\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "let res = pm.response.json();",
+              "",
+              "pm.test(\"Response contains ID\", function () {",
+              "    pm.expect(res).to.have.property(\"id\");",
+              "});",
+              "",
+              "pm.environment.set(\"currentPostId\", res.id);",
+              "console.log(\"🟢 Created Post ID:\", res.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"New Post {{$randomInt}}\",\n  \"body\": \"This is a sample post body\",\n  \"userId\": 1\n}"
+        },
+        "url": "{{base_url}}"
+      }
+    },
+    {
+      "name": "GET - Fetch Post",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "let postIds = JSON.parse(pm.environment.get(\"postIds\") || \"[1]\");",
+              "let nextId = postIds.shift();",
+              "pm.environment.set(\"currentPostId\", nextId);",
+              "pm.environment.set(\"postIds\", JSON.stringify(postIds));",
+              "console.log(\"Fetching post ID:\", nextId);"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 (OK)\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "let res = pm.response.json();",
+              "",
+              "pm.test(\"Response contains valid ID\", function () {",
+              "    pm.expect(res.id).to.eql(parseInt(pm.environment.get(\"currentPostId\")));",
+              "});",
+              "",
+              "pm.test(\"Response has title and body\", function () {",
+              "    pm.expect(res).to.have.property(\"title\");",
+              "    pm.expect(res).to.have.property(\"body\");",
+              "});",
+              "",
+              "pm.test(\"Body length is greater than 10\", function () {",
+              "    pm.expect(res.body.length).to.be.above(10);",
+              "});",
+              "",
+              "console.log(\"🔵 Retrieved post verified:\", res.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/{{currentPostId}}"
+      }
+    },
+    {
+      "name": "PUT - Update Post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 (Updated)\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "let res = pm.response.json();",
+              "",
+              "pm.test(\"Response contains ID\", function () {",
+              "    pm.expect(res).to.have.property(\"id\");",
+              "});",
+              "",
+              "console.log(\"🟠 PUT Update validated:\", res.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"id\": {{currentPostId}},\n  \"title\": \"Completely Updated Post {{currentPostId}}\",\n  \"body\": \"Full update for post {{currentPostId}} performed successfully.\",\n  \"userId\": 1\n}"
+        },
+        "url": "{{base_url}}/{{currentPostId}}"
+      }
+    },
+    {
+      "name": "PATCH - Partial Update",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 (Patched)\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "let res = pm.response.json();",
+              "",
+              "pm.test(\"Response contains ID\", function () {",
+              "    pm.expect(res).to.have.property(\"id\");",
+              "});",
+              "",
+              "console.log(\"🟣 PATCH validated for ID:\", res.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Patched Title {{currentPostId}}\"\n}"
+        },
+        "url": "{{base_url}}/{{currentPostId}}"
+      }
+    },
+    {
+      "name": "DELETE - Delete Post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 (Deleted)\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Empty response body (mock delete)\", function () {",
+              "    pm.expect(pm.response.text()).to.eql('{}');",
+              "});",
+              "",
+              "console.log(\"🗑️ DELETE validated for ID:\", pm.environment.get(\"currentPostId\"));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "url": "{{base_url}}/{{currentPostId}}"
+      }
+    }
+  ]
+}
