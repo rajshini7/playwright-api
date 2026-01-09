@@ -40,8 +40,9 @@ jobs:
           mkdir -p reports/newman
           npx newman run postman/CRUD_VAL.postman_collection.json \
             --env-var base_url=https://jsonplaceholder.typicode.com/posts \
-            --reporters cli,html \
-            --reporter-html-export reports/newman/newman-report.html
+            --reporters cli,htmlextra \
+            --reporter-htmlextra-export reports/newman/newman-report.html
+          ls -l reports/newman
           ls -R reports
 
       - name: Upload Newman report
