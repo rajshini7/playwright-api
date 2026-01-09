@@ -11,6 +11,6 @@
     "@playwright/test": "^1.41.0",
     "dotenv": "^16.4.1",
     "newman": "^6.2.1",
-    "newman-reporter-htmlextra": "^1.23.0"
+    "newman-reporter-htmlextra": "^1.23.1"
   }
 }
