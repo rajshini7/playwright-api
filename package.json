@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-   "test:api": "playwright test tests/api",
-   "test": "npm run test:api",
-   "newman:run": "npx newman run postman/CRUD_VAL.postman_collection.json --env-var base_url=https://jsonplaceholder.typicode.com/posts --verbose --reporters cli,html --reporter-html-export reports/newman/newman-report.html"
+    "test:api": "playwright test tests/api",
+    "test": "npm run test:api",
+    "newman:run": "npx newman run postman/CRUD_VAL.postman_collection.json --env-var base_url=https://jsonplaceholder.typicode.com/posts --verbose --reporters cli,html --reporter-html-export reports/newman/newman-report.html"
   },
   "devDependencies": {
     "@playwright/test": "^1.41.0",
     "dotenv": "^16.4.1",
-    "newman": "^6.1.0"
+    "newman": "^6.1.0",
+    "newman-reporter-html": "^1.0.5"
   }
 }
