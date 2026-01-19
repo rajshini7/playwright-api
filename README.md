@@ -1,236 +1,185 @@
-Playwright Recorder & Replay Automation Framework
+# Playwright API Automation Framework (with Newman)
 
- OVERVIEW
+## OVERVIEW
 
-This project is a Playwright-based UI journey recorder and replay framework that allows you to:
-🔹Record real user navigation flows from a browser session
-🔹Persist those steps as structured data (steps.json)
-🔹Replay the exact same journey deterministically
-🔹Verify content stability across runs
-🔹Capture screenshots automatically on failures
-🔹Generate a self-contained HTML replay report
-🔹Run identically in local and CI environments
-🔹Unlike traditional Playwright tests, this framework focuses on record once → replay forever with validation.
+This project is a **modern API automation framework** built using **Playwright for API testing** and **Newman for Postman-based execution and reporting**.
 
- WHY THIS PROJECT
+It provides:
+- Deterministic API validation
+- Clear separation of test logic and API definitions
+- Fast local execution
+- CI-ready automation with downloadable HTML reports
+- A clean developer workflow suitable for real-world teams
 
-Modern UI automation often fails due to:
+The framework is designed to work **identically on local machines and in CI pipelines**.
 
-🔹Dynamic content
+---
 
-🔹Fragile selectors
+## WHY THIS PROJECT
 
-🔹Environment drift
+API automation in many teams suffers from:
 
-🔹Poor debugging visibility in CI
+- Over-reliance on Postman without CI integration
+- Flaky or slow test frameworks
+- Poor visibility of failures in CI
+- No standardized reporting artifacts
+- Hard-to-maintain scripts
 
-🔹This project solves those problems by:
+### This project solves those problems by:
 
-🔹Recording actual user intent
-
-🔹Validating page content, not just navigation
-
-🔹Providing visual proof (screenshots) on failures
-
-🔹Producing CI-friendly artifacts
-
-🔹Allowing safe regression detection without rewriting tests
+- Using **Playwright’s request API** for fast, reliable API tests
+- Supporting **Postman collections via Newman**
+- Generating **HTML reports** for audit and debugging
+- Running cleanly in **GitHub Actions**
+- Enforcing a **structured, maintainable test layout**
 
 This makes it ideal for:
+- API regression testing
+- CI health checks
+- Contract validation
+- Demo, audit, and reporting purposes
 
-🔹Smoke journeys
+---
 
-🔹Regression validation
+## CORE CONCEPTS
 
-🔹CI health checks
+### 1️⃣ Playwright API Testing
+- Uses Playwright’s built-in `request` context
+- Supports REST APIs without browser overhead
+- Provides strong assertions and fast execution
 
-🔹Demo & audit evidence
+### 2️⃣ Postman + Newman Integration
+- Reuses existing Postman collections
+- Runs collections in CI using Newman
+- Produces a **self-contained HTML report**
 
-🧠 CORE CONCEPTS
-1️⃣ Recorder
+### 3️⃣ Deterministic CI Execution
+- Fresh environment on every run
+- No dependency on local state
+- Same behavior locally and in CI
 
-Runs an interactive browser
+### 4️⃣ Artifact-Based Reporting
+- Newman HTML reports stored as CI artifacts
+- Reports are downloadable and viewable offline
+- Clear visibility into API failures
 
-Listens to anchor (<a>) clicks
+---
 
-Captures:
+## TECH STACK
 
-Source URL
+- **Node.js**
+- **TypeScript**
+- **Playwright** (API testing)
+- **Newman** (Postman execution)
+- **GitHub Actions** (CI/CD)
+- **HTML** (Newman report output)
 
-Target URL
+---
 
-Page title
+## FOLDER STRUCTURE
 
-h1
-
-First meaningful paragraph
-
-Saves everything into baseline/steps.json
-
-2️⃣ Replay Engine
-
-Reads steps.json
-
-Replays each navigation in order
-
-Extracts live content
-
-Compares recorded vs live content
-
-Flags mismatches
-
-3️⃣ Failure Intelligence
-
-On mismatch:
-
-Takes a full-page screenshot
-
-Embeds it directly into the HTML report
-
-CI exits with failure for visibility
-
-4️⃣ Deterministic Reporting
-
-Generates a single HTML replay report
-
-Screenshots are embedded (not external dependencies)
-
-Works offline after download
-
-🧰 TECH STACK
-
-Node.js 20
-
-TypeScript
-
-Playwright
-
-GitHub Actions
-
-HTML + CSS (custom report generation)
-
-📁 FOLDER STRUCTURE
-playwright-recorder/
+playwright-api/
 │
-├── baseline/
-│   └── steps.json               # Recorded user journey
+├── .github/
+│ └── workflows/
+│ └── ci.yml # GitHub Actions CI pipeline
 │
-├── src/
-│   ├── auth/
-│   │   ├── loginrecord.ts       # Login logic for recording
-│   │   └── loginreplay.ts       # Login logic for replay
-│   │
-│   ├── config/
-│   │   ├── app.config.ts
-│   │   ├── env.ts
-│   │   └── selectors.ts
-│   │
-│   ├── record/
-│   │   └── recorder.ts          # Recorder engine
-│   │
-│   ├── replay/
-│   │   ├── artifacts/
-│   │   │   ├── screenshot.ts    # Failure screenshot logic
-│   │   │   └── replay-artifacts # Screenshots (runtime only)
-│   │   │
-│   │   ├── replay.ts            # Replay engine + report generator
-│   │   └── index.ts
-│   │
-│   └── utils/
-│       └── email.ts
+├── postman/
+│ ├── CRUD_VAL_postman_collection.json
+│ └── JSONplaceholder_postman_environment.json
+│
+├── reports/
+│ └── newman/
+│ └── newman-report.html # Generated Newman HTML report
 │
 ├── tests/
-│   └── replay.spec.ts           # CI entrypoint
+│ └── api/
+│ └── crud.spec.ts # Playwright API tests
 │
-├── .github/workflows/
-│   └── playwright.yml           # CI pipeline
-│
-├── replay-report.html           # Generated report (artifact)
 ├── playwright.config.ts
+├── tsconfig.json
 ├── package.json
+├── package-lock.json
+├── requirements.txt
+├── .gitignore
 └── README.md
 
-▶️ HOW TO EXECUTE
-🔹 Record a User Journey
-npx ts-node src/record/recorder.ts
+
+---
+
+## HOW TO EXECUTE
+
+### 🔹 Install Dependencies
+
+npm install
+🔹 Run Playwright API Tests (Local)
+
+npm run test:api
+🔹 Run Newman Collection (Local)
+
+npm run newman:run
+This generates:
 
 
-Perform clicks manually
+reports/newman/newman-report.html
 
-Close the browser to stop recording
+## CI/CD READY
+This project includes a GitHub Actions pipeline that:
 
-Output saved to baseline/steps.json
+Installs dependencies
 
-🔹 Replay & Verify (Local)
-npx playwright test tests/replay.spec.ts
+Runs Playwright API tests
 
+Executes Newman collections
 
-Requires .env with:
+Generates HTML reports
 
-BASE_URL=...
-USERNAME=...
-PASSWORD=...
+Uploads reports as CI artifacts
 
-🔹 Replay in CI
-
-Triggered automatically on:
-
+CI is triggered on:
 Push to development
 
-Pull requests to development
+Push to main
 
-🔁 CI/CD READY
+Pull requests targeting development or main
 
-✅ GitHub Actions pipeline
-✅ Headless execution
-✅ Secrets via GitHub Secrets
-✅ HTML report as downloadable artifact
-✅ Screenshot evidence on failures
-✅ Deterministic exit codes
-
-📤 EXPECTED OUTPUT
+## EXPECTED OUTPUT
 ✅ On Success
+Playwright API tests pass
 
-CI passes
+Newman collection runs successfully
 
-Replay report generated
+HTML report generated
 
-No screenshots included
+CI pipeline passes
 
 ❌ On Failure
-
 CI fails intentionally
 
-Replay report generated
+Newman HTML report still generated
 
-Failure screenshots embedded inline
+Failure details visible in report
 
 Artifacts downloadable from GitHub Actions
 
-🌿 BRANCHING STRATEGY
+## BRANCHING STRATEGY
+
 main
-├── staging
-└── development
-
+├── development
 🔹 main
+Stable, production-ready code
 
-Stable, production-ready
+CI-validated
 
-Tagged checkpoints (e.g. v1.0-replay-stable)
-
-🔹 staging
-
-Pre-production validation
-
-Final CI verification
+Protected branch (recommended)
 
 🔹 development
+Active development
 
-Active feature development
+Feature integration
 
-Recorder & replay improvements
+CI runs on every push
 
-🏁 CREATED BY
-
+## CREATED BY
 Rajeev
-Automation | Playwright | CI/CD | Systems Thinking
+Automation Engineering | Playwright | API Testing | CI/CD | Systems Thinking
