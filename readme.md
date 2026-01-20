@@ -103,8 +103,10 @@ playwright-api/
 ├── requirements.txt
 ├── .gitignore
 └── README.md
+```
 
 ## HOW TO EXECUTE
+
 🔹 Install Dependencies
 npm install
 
@@ -118,6 +120,8 @@ npm run newman:run
 This generates:
 
 reports/newman/newman-report.html
+
+```
 
 ## CI/CD READY
 
@@ -141,6 +145,8 @@ Push to main
 
 Pull requests targeting development or main
 
+```
+
 ## EXPECTED OUTPUT
 ✅ On Success
 
@@ -161,6 +167,8 @@ Newman HTML report still generated
 Failure details visible in report
 
 Artifacts downloadable from GitHub Actions
+
+```
 
 ## BRANCHING STRATEGY
 Main
