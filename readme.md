@@ -164,7 +164,7 @@ Failure details visible in report
 Artifacts downloadable from GitHub Actions
 
 ## BRANCHING STRATEGY
-main
+Main
 ├── development
 
 🔹 main
