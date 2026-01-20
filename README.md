@@ -78,6 +78,7 @@ This makes it ideal for:
 
 ## FOLDER STRUCTURE
 
+```bash
 playwright-api/
 │
 ├── .github/
@@ -106,6 +107,8 @@ playwright-api/
 ```
 
 ## HOW TO EXECUTE
+
+```bash
 
 🔹 Install Dependencies
 npm install
@@ -171,6 +174,8 @@ Artifacts downloadable from GitHub Actions
 ```
 
 ## BRANCHING STRATEGY
+
+```bash
 Main
 ├── development
 
@@ -189,6 +194,8 @@ Active development
 Feature integration
 
 CI runs on every push
+
+```
 
 ## CREATED BY
 
