@@ -78,23 +78,24 @@ This makes it ideal for:
 
 ## FOLDER STRUCTURE
 
+```text
 playwright-api/
 │
 ├── .github/
-│ └── workflows/
-│ └── ci.yml # GitHub Actions CI pipeline
+│   └── workflows/
+│       └── ci.yml                 # GitHub Actions CI pipeline
 │
 ├── postman/
-│ ├── CRUD_VAL_postman_collection.json
-│ └── JSONplaceholder_postman_environment.json
+│   ├── CRUD_VAL_postman_collection.json
+│   └── JSONplaceholder_postman_environment.json
 │
 ├── reports/
-│ └── newman/
-│ └── newman-report.html # Generated Newman HTML report
+│   └── newman/
+│       └── newman-report.html     # Generated Newman HTML report
 │
 ├── tests/
-│ └── api/
-│ └── crud.spec.ts # Playwright API tests
+│   └── api/
+│       └── crud.spec.ts           # Playwright API tests
 │
 ├── playwright.config.ts
 ├── tsconfig.json
@@ -104,26 +105,23 @@ playwright-api/
 ├── .gitignore
 └── README.md
 
-
----
-
 ## HOW TO EXECUTE
-
-### 🔹 Install Dependencies
-
+🔹 Install Dependencies
 npm install
+
 🔹 Run Playwright API Tests (Local)
-
 npm run test:api
+
 🔹 Run Newman Collection (Local)
-
 npm run newman:run
-This generates:
 
+
+This generates:
 
 reports/newman/newman-report.html
 
 ## CI/CD READY
+
 This project includes a GitHub Actions pipeline that:
 
 Installs dependencies
@@ -137,6 +135,7 @@ Generates HTML reports
 Uploads reports as CI artifacts
 
 CI is triggered on:
+
 Push to development
 
 Push to main
@@ -145,6 +144,7 @@ Pull requests targeting development or main
 
 ## EXPECTED OUTPUT
 ✅ On Success
+
 Playwright API tests pass
 
 Newman collection runs successfully
@@ -154,6 +154,7 @@ HTML report generated
 CI pipeline passes
 
 ❌ On Failure
+
 CI fails intentionally
 
 Newman HTML report still generated
@@ -163,10 +164,11 @@ Failure details visible in report
 Artifacts downloadable from GitHub Actions
 
 ## BRANCHING STRATEGY
-
-main
+Main
 ├── development
+
 🔹 main
+
 Stable, production-ready code
 
 CI-validated
@@ -174,6 +176,7 @@ CI-validated
 Protected branch (recommended)
 
 🔹 development
+
 Active development
 
 Feature integration
@@ -181,5 +184,6 @@ Feature integration
 CI runs on every push
 
 ## CREATED BY
+
 Rajeev
 Automation Engineering | Playwright | API Testing | CI/CD | Systems Thinking
