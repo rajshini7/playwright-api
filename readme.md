@@ -78,7 +78,6 @@ This makes it ideal for:
 
 ## FOLDER STRUCTURE
 
-```text
 playwright-api/
 │
 ├── .github/
